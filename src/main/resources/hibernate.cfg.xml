@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hibernate-configuration>
+    <session-factory>
+        <!-- <YOURCONNECTION> -->
+        <!-- JDBC connection settings -->
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <!-- <property name="connection.url">jdbc:sqlserver://49.0.81.242:2207;databaseName=at2</property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password">l56omujl6fHA</property> -->
+        
+        <!-- <property name="connection.url">jdbc:sqlserver://192.168.1.254;databaseName=at1</property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password">l56omujl6fHA</property> -->
+
+        <property name="connection.url">jdbc:postgresql://149.28.133.77:5432/pezydb</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">pezydev</property>
+
+        <!-- JDBC connection pool, use Hibernate internal connection pool -->
+        <property name="connection.pool_size">5</property>
+
+        <!-- Defines the SQL dialect used in Hibernate's application -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="database-platform">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCachingRegionFactory</property>
+
+        <!-- Display and format all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">none</property>
+        
+        
+        <!-- <mapping class="com.smartict.assettracking_hibernate_api.entity.Case"/> -->
+    </session-factory>
+</hibernate-configuration>
