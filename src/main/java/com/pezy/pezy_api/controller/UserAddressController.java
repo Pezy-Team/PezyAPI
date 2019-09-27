@@ -1,5 +1,7 @@
 package com.pezy.pezy_api.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,19 @@ public class UserAddressController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Long id){
 		return ResponseEntity.ok(service.findById(id));
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteById(@PathVariable("id") Long id){
+		Optional<UserAddress> addressOpt = service.findById(id);
+		if(addressOpt.isPresent()) {
+			UserAddress address = addressOpt.get();
+			address.setUser(null);
+			service.save(address);
+			service.deleteById(address.getId());
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 }

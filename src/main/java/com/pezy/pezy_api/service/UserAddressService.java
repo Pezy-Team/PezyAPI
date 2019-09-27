@@ -22,4 +22,12 @@ public class UserAddressService {
 		return repository.findById(id);
 	}
 	
+	public void delete(UserAddress address) {
+		repository.delete(address);
+	}
+	
+	public void deleteById(Long id) {
+		repository.deleteById(id);
+	}
+	
 }
