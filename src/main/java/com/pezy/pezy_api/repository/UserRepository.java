@@ -12,7 +12,10 @@ import com.pezy.pezy_api.entity.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-	@Query(nativeQuery = true, value = "SELECT * FROM res_user WHERE email = ?1 AND password = ?2")
-	public List<User> findUserAuthenticate(String email, String password);
+	@Query(nativeQuery = true, value = "SELECT * FROM res_user WHERE email = ?1")
+	public List<User> findUserAuthenticateByEmail(String email);
+	
+	@Query(nativeQuery = true, value = "SELECT * FROM res_user WHERE username = ?1")
+	public List<User> findUserAuthenticateByUsername(String username);
 	
 }

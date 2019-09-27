@@ -24,8 +24,12 @@ public class UserService {
 		return userRep.saveAll(users);
 	}
 	
-	public List<User> findByEmailAndPassword(String email, String pwd) {
-		return userRep.findUserAuthenticate(email, pwd);
+	public List<User> findUserByEmail(String email) {
+		return userRep.findUserAuthenticateByEmail(email);
+	}
+	
+	public List<User> findUserByUsername(String username){
+		return userRep.findUserAuthenticateByUsername(username);
 	}
 	
 	public Optional<User> findById(Long id) {

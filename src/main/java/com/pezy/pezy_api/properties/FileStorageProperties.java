@@ -1,4 +1,4 @@
-package com.pezy.pezy_api.pojo;
+package com.pezy.pezy_api.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

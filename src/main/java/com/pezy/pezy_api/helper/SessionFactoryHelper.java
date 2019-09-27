@@ -1,4 +1,4 @@
-package com.pezy.pezy_api.utils;
+package com.pezy.pezy_api.helper;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

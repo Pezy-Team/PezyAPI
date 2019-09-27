@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pezy.pezy_api.exception.FileStorageException;
 import com.pezy.pezy_api.exception.MyFileNotFoundException;
-import com.pezy.pezy_api.pojo.FileStorageProperties;
+import com.pezy.pezy_api.properties.FileStorageProperties;
 
 @Service
 public class FileStorageService {

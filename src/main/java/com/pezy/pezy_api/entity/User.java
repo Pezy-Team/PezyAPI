@@ -16,6 +16,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
@@ -37,28 +38,39 @@ public class User implements Serializable{
 	@Column(length = 20)
 	private String tel;
 	
-	@Column(length = 30)
+	@Column(length = 50)
 	private String email;
 	
 	@Column(length = 25)
 	private String username;
 	
-	@Column(length = 50)
+	@Column(length = 125)
 	private String password;
+	
+	@Column(length = 125)
+	private String token;
+	
+	@Column(name = "token_expire")
+	@JsonProperty("token_expire")
+	private Date tokenExpire;
 	
 	@CreatedBy
 	@Column(name = "create_uid")
+	@JsonProperty("create_uid")
 	private Long createUID;
 	
 	@LastModifiedBy
 	@Column(name = "update_uid")
+	@JsonProperty("update_uid")
 	private Long updateUID;
 	
 	@CreatedDate
 	@Column(name = "create_date")
+	@JsonProperty("create_date")
 	private Date createDate = new Date();
 	
 	@LastModifiedDate
 	@Column(name = "update_date")
+	@JsonProperty("update_date")
 	private Date updateDate = new Date();
 }

@@ -10,12 +10,14 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.pezy.pezy_api.pojo.FileStorageProperties;
 import com.pezy.pezy_api.pojo.ResponseMessage;
+import com.pezy.pezy_api.properties.FileStorageProperties;
+import com.pezy.pezy_api.properties.SecuritiesProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-	FileStorageProperties.class
+	FileStorageProperties.class,
+	SecuritiesProperties.class
 })
 public class PezyApiApplication {
 
