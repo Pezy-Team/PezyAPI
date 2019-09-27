@@ -22,7 +22,7 @@ public class UserUtils {
 	}
 
 	public String storeToken(UserService userServ, User userResult, SecuritiesProperties secProp) {
-		String befToken = new Date().toString() + userResult.toString() + secProp.getSALT();
+		String befToken = new Date().toString() + userResult.getEmail() + userResult.getCreateDate() + secProp.getSALT();
 		String aftToken = AuthHelper.bcrypt(secProp.getSTRENGTH(), befToken);
 		Date date = new Date();
 		DateTime dt = new DateTime();
@@ -32,7 +32,7 @@ public class UserUtils {
 		userServ.save(userResult);
 		return aftToken;
 	}
-
+	
 	public boolean isEmailExist(String email, UserService userServ) {
 		if(!userServ.findUserByEmail(email).isEmpty()) {
 			return true;

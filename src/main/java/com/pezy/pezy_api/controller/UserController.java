@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pezy.pezy_api.entity.User;
 import com.pezy.pezy_api.helper.AuthHelper;
+import com.pezy.pezy_api.pojo.AuthRequest;
 import com.pezy.pezy_api.pojo.ResponseMessage;
 import com.pezy.pezy_api.pojo.TokenMessage;
 import com.pezy.pezy_api.properties.SecuritiesProperties;
@@ -55,9 +57,27 @@ public class UserController {
 		userResult.setPassword("***");
 		return ResponseEntity.status(HttpStatus.CREATED).body(userResult);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+		Optional<User> userOpt = userServ.findById(id);
+		if(userOpt.isPresent()) {
+			userOpt.get().setPassword("***");
+			return ResponseEntity.ok(userOpt);
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@PutMapping
+	public ResponseEntity<?> update(@RequestBody User user){
+		Optional<User> userOpt = userServ.findById(user.getId());
+		user.setPassword(userOpt.get().getPassword());
+		return ResponseEntity.ok(userServ.save(user));
+	}
 
 	@PostMapping("/auth-by-email")
-	public ResponseEntity<?> authByEmail(@RequestBody User user) {
+	public ResponseEntity<?> authByEmail(@RequestBody AuthRequest user) {
 		List<User> users = userServ.findUserByEmail(user.getEmail());
 		ResponseMessage resMessage = new ResponseMessage();
 		if (users.isEmpty()) {
@@ -84,7 +104,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/auth-by-username")
-	public ResponseEntity<?> authByUsername(@RequestBody User user) {
+	public ResponseEntity<?> authByUsername(@RequestBody AuthRequest user) {
 		List<User> users = userServ.findUserByUsername(user.getUsername());
 		ResponseMessage resMessage = new ResponseMessage();
 		if (users.isEmpty()) {
@@ -108,16 +128,6 @@ public class UserController {
 		tokenMsg.setToken(userUtils.storeToken(userServ, userResult, secProp));
 		tokenMsg.setMessage("Authenticate successful.");
 		return ResponseEntity.ok(tokenMsg);
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity findById(@PathVariable("id") Long id) {
-		Optional<User> userOpt = userServ.findById(id);
-		if(userOpt.isPresent()) {
-			return ResponseEntity.ok(userOpt);
-		}
-		
-		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping("/structure")
