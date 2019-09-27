@@ -32,6 +32,10 @@ public class UserService {
 		return userRep.findUserAuthenticateByUsername(username);
 	}
 	
+	public User findUserByToken(String token){
+		return userRep.findUserByToken(token);
+	}
+	
 	public Optional<User> findById(Long id) {
 		return userRep.findById(id);
 	}

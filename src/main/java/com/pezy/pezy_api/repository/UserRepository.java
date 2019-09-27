@@ -18,4 +18,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	@Query(nativeQuery = true, value = "SELECT * FROM res_user WHERE username = ?1")
 	public List<User> findUserAuthenticateByUsername(String username);
 	
+	@Query(nativeQuery = true, value = "SELECT * FROM res_user WHERE token = ?1")
+	public User findUserByToken(String token);
+	
 }
