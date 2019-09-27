@@ -62,6 +62,10 @@ public class User implements Serializable {
 
 	@Column(length = 125)
 	private String token;
+	
+	@Column(name = "profile_image", length = 500)
+	@JsonProperty("profile_image")
+	private String profileImage;
 
 	@Column(name = "user_type")
 	@JsonProperty("user_type")

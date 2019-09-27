@@ -3,7 +3,10 @@ package com.pezy.pezy_api.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,15 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pezy.pezy_api.entity.User;
 import com.pezy.pezy_api.helper.AuthHelper;
 import com.pezy.pezy_api.pojo.AuthRequest;
 import com.pezy.pezy_api.pojo.ResponseMessage;
 import com.pezy.pezy_api.pojo.TokenMessage;
+import com.pezy.pezy_api.pojo.UploadFileResponse;
 import com.pezy.pezy_api.properties.SecuritiesProperties;
+import com.pezy.pezy_api.service.FileStorageService;
 import com.pezy.pezy_api.service.UserService;
+import com.pezy.pezy_api.utils.FileUploadUtils;
 import com.pezy.pezy_api.utils.UserUtils;
 
 @RestController
@@ -34,6 +42,9 @@ public class UserController {
 	
 	@Autowired
 	private SecuritiesProperties secProp;
+	
+	@Autowired
+	private FileStorageService fileService;
 	
 	private UserUtils userUtils = new UserUtils();
 	private ResponseMessage fMsg = new ResponseMessage();
@@ -135,5 +146,17 @@ public class UserController {
 		User body = new User();
 		return ResponseEntity.ok(body);
 	}
+	
+	@PostMapping("/profile/upload")
+    public UploadFileResponse uploadFile(@RequestParam MultipartFile file) {
+		FileUploadUtils fileUtils = new FileUploadUtils();
+		return fileUtils.uploadFile(file, fileService, "/v1/user/profile");
+	}
+
+    @GetMapping("/profile/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+    	FileUploadUtils fileUtils = new FileUploadUtils();
+    	return fileUtils.downloadFile(fileName, request, fileService);
+    }
 
 }
