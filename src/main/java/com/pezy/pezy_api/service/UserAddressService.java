@@ -1,5 +1,7 @@
 package com.pezy.pezy_api.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,10 @@ public class UserAddressService {
 	
 	public UserAddress save(UserAddress address) {
 		return repository.save(address);
+	}
+	
+	public Optional<UserAddress> findById(Long id) {
+		return repository.findById(id);
 	}
 	
 }
