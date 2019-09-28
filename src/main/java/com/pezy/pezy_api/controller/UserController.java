@@ -62,7 +62,8 @@ public class UserController {
 			return ResponseEntity.badRequest().body(fMsg);
 		}
 		
-		String pwd = AuthHelper.bcrypt(secProp.getSTRENGTH(), user.getPassword() + secProp.getSALT());
+		String raw = user.getPassword() + secProp.getSALT();
+		String pwd = AuthHelper.bcrypt(secProp.getSTRENGTH(), raw);
 		user.setPassword(pwd);
 		User userResult = userServ.save(user);
 		userResult.setPassword("***");
@@ -99,7 +100,8 @@ public class UserController {
 		/**
 		 * Verify token.
 		 */
-		User userResult = userUtils.verifyPassword(users, user.getPassword() + secProp.getSALT());
+		String pwd = user.getPassword() + secProp.getSALT();
+		User userResult = userUtils.verifyPassword(users, pwd);
 		if(userResult == null) {
 			resMessage.setMessage("Username or password was invalid.");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resMessage);

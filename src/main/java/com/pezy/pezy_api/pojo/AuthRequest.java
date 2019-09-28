@@ -1,5 +1,7 @@
 package com.pezy.pezy_api.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Data

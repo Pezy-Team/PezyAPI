@@ -38,7 +38,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "res_user")
-@JsonIgnoreProperties(value = {"password", "token"})
+@JsonIgnoreProperties(value = {"password", "token"}, allowSetters = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = User.class)
 public class User implements Serializable {
 
@@ -59,10 +59,10 @@ public class User implements Serializable {
 	@Column(length = 25)
 	private String username;
 
-	@Column(length = 125)
+	@Column(length = 500)
 	private String password;
 
-	@Column(length = 125)
+	@Column(length = 500)
 	private String token;
 	
 	@Column(name = "profile_image", length = 500)

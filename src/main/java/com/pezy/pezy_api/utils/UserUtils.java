@@ -13,8 +13,10 @@ import com.pezy.pezy_api.service.UserService;
 public class UserUtils {
 
 	public User verifyPassword(List<User> users, String pwd) {
+		
 		for(User user : users) {
-			if(AuthHelper.verifyPassword(pwd, user.getPassword())) {
+			boolean chk = AuthHelper.verifyPassword(pwd, user.getPassword());
+			if(chk) {
 				return user;
 			}
 		}
