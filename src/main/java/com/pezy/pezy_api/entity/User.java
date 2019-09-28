@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -107,8 +109,15 @@ public class User implements Serializable {
 	 * Relation
 	 */
 	@Column(name = "addresses")
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userAddress")
 	@JsonManagedReference(value = "user_address")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<UserAddress> addresses;
+	
+	@Column(name = "stores")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userStore")
+	@JsonManagedReference(value = "user_store")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Store> stores;
 
 }

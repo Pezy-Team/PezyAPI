@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
@@ -34,6 +35,7 @@ public class UserAddress implements Serializable{
 	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "user_id")
 	@JsonBackReference(value = "user_address")
-	private User user;
+	@JsonProperty("user_address")
+	private User userAddress;
 	
 }

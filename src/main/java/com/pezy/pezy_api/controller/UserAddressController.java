@@ -50,7 +50,7 @@ public class UserAddressController {
 		Optional<UserAddress> addressOpt = service.findById(id);
 		if(addressOpt.isPresent()) {
 			UserAddress address = addressOpt.get();
-			address.setUser(null);
+			address.setUserAddress(null);
 			service.save(address);
 			service.deleteById(address.getId());
 			return ResponseEntity.noContent().build();
