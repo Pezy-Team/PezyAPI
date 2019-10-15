@@ -86,4 +86,11 @@ public class ProductCategory implements Serializable {
 	@JoinColumn(name = "category_id")
 	@JsonBackReference(value = "categories_parent")
 	private ProductCategory parent;
+	
+	@Column(name = "products", nullable = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER, mappedBy = "category")
+	@JsonManagedReference(value = "products_parent")
+	private List<Product> products;
+	
+	
 }
