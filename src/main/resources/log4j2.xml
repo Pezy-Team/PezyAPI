@@ -5,15 +5,15 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
         <!-- <YOURCONNECTION> -->
-        <File name="LogToFile" fileName="/Users/mac/Desktop/logs/pezy/console.log">
-        <!-- <File name="LogToFile" fileName="C:\Pezy\logs\hibernate\console.log"> -->
+        <!-- <File name="LogToFile" fileName="/Users/mac/Desktop/logs/pezy/console.log"> -->
+        <File name="LogToFile" fileName="C:\Pezy\logs\hibernate\console.log">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
         </File>
         
-        <File name="PezyLog" fileName="/Users/mac/Desktop/logs/pezy/pezy.log">
-        <!-- <File name="PezyLog" fileName="C:\Pezy\logs\hibernate\pezy.log"> -->
+        <!-- <File name="PezyLog" fileName="/Users/mac/Desktop/logs/pezy/pezy.log"> -->
+        <File name="PezyLog" fileName="C:\Pezy\logs\hibernate\pezy.log">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
