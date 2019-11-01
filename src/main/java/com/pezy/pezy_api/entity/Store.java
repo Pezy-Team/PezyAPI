@@ -2,14 +2,20 @@ package com.pezy.pezy_api.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedBy;
@@ -19,8 +25,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pezy.pezy_api.enumerate.BooleanEnum;
+import com.pezy.pezy_api.enumerate.StoreStatusEnum;
 
 import lombok.Data;
 
@@ -87,6 +96,14 @@ public class Store implements Serializable {
 	@JsonProperty("logo")
 	private String logo;
 
+	@Column(name = "status")
+	@Enumerated(EnumType.STRING)
+	private StoreStatusEnum status = StoreStatusEnum.WAIT;
+	
+	@Column(name = "vdo_live_status")
+	@Enumerated(EnumType.STRING)
+	private BooleanEnum vdoLiveStatus = BooleanEnum.FALSE;
+
 	@CreatedBy
 	@Column(name = "create_uid")
 	@JsonProperty("create_uid")
@@ -115,6 +132,10 @@ public class Store implements Serializable {
 	@JsonBackReference(value = "user_store")
 	@JsonProperty("user_store")
 	private User userStore;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "store")
+	@JsonManagedReference(value = "storePostStatusRef")
+	private List<StoreNearPostStation> poststations;
 	
 
 }
