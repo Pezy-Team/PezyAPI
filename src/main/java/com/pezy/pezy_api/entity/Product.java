@@ -6,10 +6,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,6 +44,7 @@ import com.pezy.pezy_api.pojo.UploadFileResponse;
 import com.pezy.pezy_api.utils.FileUploadUtils;
 
 import lombok.Data;
+import lombok.val;
 
 @Data
 @Entity
@@ -70,11 +73,6 @@ public class Product implements Serializable{
 	@Enumerated(EnumType.ORDINAL)
 	private BooleanEnum active = BooleanEnum.TRUE;
 
-	@ManyToOne(targetEntity = ProductCategory.class)
-	@JoinColumn(name = "category_id", nullable = false)
-	@JsonBackReference(value = "products_parent")
-	private ProductCategory category;
-
 	@CreatedBy
 	@Column(name = "create_uid")
 	@JsonProperty("create_uid")
@@ -94,5 +92,20 @@ public class Product implements Serializable{
 	@Column(name = "update_date")
 	@JsonProperty("update_date")
 	private Date updateDate = new Date();
+	
+	/**
+	 * Relations
+	 */
+
+
+	@ManyToOne(targetEntity = ProductCategory.class)
+	@JoinColumn(name = "category_id", nullable = false)
+	@JsonBackReference(value = "products_parent")
+	private ProductCategory category;
+
+	@ManyToOne(targetEntity = Store.class)
+	@JoinColumn(name = "store_id")
+	@JsonBackReference(value = "productStoreRef")
+	private Store store;
 
 }

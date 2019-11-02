@@ -137,5 +137,9 @@ public class Store implements Serializable {
 	@JsonManagedReference(value = "storePostStatusRef")
 	private List<StoreNearPostStation> poststations;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "store")
+	@JsonManagedReference(value = "productStoreRef")
+	private List<Product> products;
+	
 
 }
