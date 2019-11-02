@@ -1,5 +1,7 @@
 package com.pezy.pezy_api.controller;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pezy.pezy_api.entity.Store;
+import com.pezy.pezy_api.pojo.ResponseMessage;
 import com.pezy.pezy_api.pojo.UploadFileResponse;
 import com.pezy.pezy_api.service.FileStorageService;
 import com.pezy.pezy_api.service.StoreService;
@@ -34,6 +37,8 @@ public class StoreController {
 	@Autowired
 	private FileStorageService fileService;
 	
+	ResponseMessage msg = new ResponseMessage();
+	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody Store store){
 		store.setId(null);
@@ -43,6 +48,16 @@ public class StoreController {
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody Store store){
 		return ResponseEntity.ok(service.save(store));
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findById(@PathVariable("id") Long id){
+		Optional<Store> storeOptional = service.findById(id);
+		if(storeOptional.isPresent()) {
+			return ResponseEntity.ok(storeOptional);
+		}
+		msg.setMessage("Store not found!");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
 	}
 
 	@PostMapping("/logo/upload")
