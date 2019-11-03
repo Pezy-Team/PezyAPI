@@ -119,5 +119,9 @@ public class User implements Serializable {
 	@JsonManagedReference(value = "user_store")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Store> stores;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, mappedBy = "user")
+	@JsonManagedReference(value = "user_order")
+	private Set<Order> orders;
 
 }

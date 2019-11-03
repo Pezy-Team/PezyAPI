@@ -1,6 +1,5 @@
 package com.pezy.pezy_api.entity;
 
-import java.awt.datatransfer.StringSelection;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,22 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.print.attribute.IntegerSyntax;
-import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.jgit.annotations.Nullable;
 import org.hibernate.annotations.Type;
-import org.springframework.core.io.Resource;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -43,38 +32,58 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pezy.pezy_api.enumerate.BooleanEnum;
-import com.pezy.pezy_api.pojo.UploadFileResponse;
-import com.pezy.pezy_api.utils.FileUploadUtils;
+import com.pezy.pezy_api.enumerate.OrderStatusEnum;
 
 import lombok.Data;
-import lombok.val;
 
 @Data
 @Entity
-@Table(name = "res_product")
+@Table(name = "order")
 //@JsonIgnoreProperties(value = {"password", "token"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Product.class)
-public class Product implements Serializable{
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Order.class)
+public class Order implements Serializable{
 	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", length = 5)
 	private Long id;
 	
-	private String name;
+	@JsonProperty(value = "sum_amount")
+	@Column(name = "order_no")
+	private Integer sumAmount;
 	
-	private String colour;
+	@JsonProperty(value = "order_no")
+	@Column(name = "order_no")
+	private String orderNo;
 	
-	private String size;
-	
-	private String capacity;
-	
-	@Column(name = "price", precision = 10, scale = 2, columnDefinition = " Decimal(10,2) ")
+	@Column(name = "sum_price", precision = 10, scale = 2, columnDefinition = " Decimal(10,2) ")
+	@JsonProperty(value = "sum_price")
 	@Type(type = "big_decimal")
-	private BigDecimal price;
+	private BigDecimal sumPrice;
 	
-	@Enumerated(EnumType.ORDINAL)
-	private BooleanEnum active = BooleanEnum.TRUE;
+	@JsonProperty(value = "order_date")
+	@Column(name = "order_date")
+	private Date orderDate = new Date();
+	
+	@JsonProperty(value = "payment_slips")
+	@Column(name = "payment_slips")
+	private String paymentSlips;
+	
+	@JsonProperty(value = "packing_picture")
+	@Column(name = "packing_picture")
+	private String packingPicture;
+	
+	@JsonProperty(value = "transport_bill_picture")
+	@Column(name = "transport_bill_picture")
+	private String transportBillPicture;
+	
+	@JsonProperty(value = "transport_no")
+	@Column(name = "transport_no")
+	private String transportNo;
+	
+	@Enumerated(EnumType.STRING)
+	private OrderStatusEnum status = OrderStatusEnum.WAIT;
 
 	@CreatedBy
 	@Column(name = "create_uid")
@@ -99,19 +108,15 @@ public class Product implements Serializable{
 	/**
 	 * Relations
 	 */
-
-	@ManyToOne(targetEntity = ProductCategory.class)
-	@JoinColumn(name = "category_id", nullable = false)
-	@JsonBackReference(value = "products_parent")
-	private ProductCategory category;
-
-	@ManyToOne(targetEntity = Store.class)
-	@JoinColumn(name = "store_id")
-	@JsonBackReference(value = "productStoreRef")
-	private Store store;
+	@ManyToOne(targetEntity = User.class)
+	@JsonBackReference(value = "user_order")
+	@JoinColumn(name = "user_id")
+	private User user;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = false)
-	@JsonManagedReference(value = "products_orderline")
-	private Set<OrderLine> orders;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "order")
+	@JsonManagedReference(value = "order_orderline")
+	@JsonProperty(value = "order_lines")
+	@Column(name = "order_lines")
+	private Set<OrderLine> orderLines;
 
 }
