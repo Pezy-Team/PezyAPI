@@ -1,5 +1,7 @@
 package com.pezy.pezy_api.helper;
 
+import javax.persistence.EntityManager;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -12,7 +14,7 @@ public class SessionFactoryHelper {
 	static {
 		try {
 	        Configuration configuration = new Configuration();
-	        configuration.configure("hibernate.cfg.xml");
+	        configuration.configure("persistence.xml");
 	        StandardServiceRegistryBuilder ssrb = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
 	        SessionFactory sessionFactory = configuration.buildSessionFactory(ssrb.build());
 	        fSession = sessionFactory.openSession();
@@ -23,6 +25,10 @@ public class SessionFactoryHelper {
 	
 	public static Session getSessionFactory() {
 		return fSession;
+	}
+	
+	public static EntityManager createEntityManager() {
+		return fSession.getEntityManagerFactory().createEntityManager();
 	}
 	
 }

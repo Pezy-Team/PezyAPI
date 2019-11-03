@@ -133,7 +133,7 @@ public class Store implements Serializable {
 	@JsonProperty("user_store")
 	private User userStore;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = false, mappedBy = "store")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "store")
 	@JsonManagedReference(value = "storePostStatusRef")
 	private List<StoreNearPostStation> poststations;
 	
@@ -141,5 +141,8 @@ public class Store implements Serializable {
 	@JsonManagedReference(value = "productStoreRef")
 	private List<Product> products;
 	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "store")
+	@JsonManagedReference(value = "storeAdsRef")
+	private List<StoreAds> adsBanner;
 
 }

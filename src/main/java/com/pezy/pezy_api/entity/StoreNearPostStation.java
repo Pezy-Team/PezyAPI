@@ -43,11 +43,11 @@ public class StoreNearPostStation implements Serializable{
 	
 	private String name;
 
-	@Column(name = "latitude", precision = 15, scale = 15, columnDefinition = " Decimal(15, 15) ")
+	@Column(name = "latitude", precision = 4, scale = 15, columnDefinition = " Decimal(15, 15) ")
 	@Type(type = "big_decimal")
 	private BigDecimal latitude;
 	
-	@Column(name = "longitude", precision = 15, scale = 15, columnDefinition = " Decimal(15, 15) ")
+	@Column(name = "longitude", precision = 4, scale = 15, columnDefinition = " Decimal(15, 15) ")
 	@Type(type = "big_decimal")
 	private BigDecimal longitude;
 	

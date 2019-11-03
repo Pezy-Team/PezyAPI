@@ -11,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -21,6 +23,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -78,4 +81,9 @@ public class StoreAds implements Serializable{
 	@Column(name = "update_date")
 	@JsonProperty("update_date")
 	private Date updateDate = new Date();
+	
+	@ManyToOne(targetEntity = Store.class)
+	@JoinColumn(name = "store_id")
+	@JsonBackReference(value = "storeAdsRef")
+	private Store store;
 }
