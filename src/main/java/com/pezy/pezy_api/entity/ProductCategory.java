@@ -3,6 +3,7 @@ package com.pezy.pezy_api.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -88,7 +91,8 @@ public class ProductCategory implements Serializable {
 	private ProductCategory parent;
 	
 	@Column(name = "products", nullable = true)
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "category")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonManagedReference(value = "products_parent")
 	private List<Product> products;
 	
