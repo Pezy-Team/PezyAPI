@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pezy.pezy_api.enumerate.BooleanEnum;
+import com.pezy.pezy_api.enumerate.PezyArticleTypeEnum;
 
 import lombok.Data;
 
@@ -49,6 +50,11 @@ public class HelpCenter implements Serializable{
 	private String infoGraphic;
 	
 	private String banner;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "article_type")
+	@JsonProperty(value = "article_type")
+	private PezyArticleTypeEnum articleType = PezyArticleTypeEnum.OTHER;
 	
 	@Enumerated(EnumType.STRING)
 	private BooleanEnum active = BooleanEnum.TRUE;
