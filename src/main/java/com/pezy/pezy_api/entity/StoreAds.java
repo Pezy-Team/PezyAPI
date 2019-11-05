@@ -52,6 +52,7 @@ public class StoreAds implements Serializable{
 	private AdsProcessStatusEnum status = AdsProcessStatusEnum.WAIT;
 	
 	@JsonProperty(value = "banner_ads")
+	@Column(name = "banner_ads")
 	private String bannerAds;
 	
 	@JsonProperty(value = "running_date")
@@ -82,8 +83,8 @@ public class StoreAds implements Serializable{
 	@JsonProperty("update_date")
 	private Date updateDate = new Date();
 	
-	@ManyToOne(targetEntity = Store.class)
+	@ManyToOne(targetEntity = Stores.class)
 	@JoinColumn(name = "store_id")
 	@JsonBackReference(value = "storeAdsRef")
-	private Store store;
+	private Stores store;
 }

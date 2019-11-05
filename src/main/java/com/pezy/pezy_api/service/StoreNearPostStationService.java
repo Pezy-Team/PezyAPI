@@ -3,6 +3,7 @@ package com.pezy.pezy_api.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.pezy.pezy_api.entity.Store;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pezy.pezy_api.entity.Stores;
+import com.pezy.pezy_api.entity.UserAddress;
 import com.pezy.pezy_api.entity.StoreNearPostStation;
 import com.pezy.pezy_api.helper.SessionFactoryHelper;
 import com.pezy.pezy_api.pojo.ResponseMessage;
@@ -24,16 +27,15 @@ import com.pezy.pezy_api.repository.StoreRepository;
 @Service
 public class StoreNearPostStationService {
 	
-	private EntityManagerFactory emf;
-	
-	@PersistenceContext
-	private EntityManager em;
-	
 	@Autowired
 	private StoreNearPostStationRepository repo;
 	
 	@Autowired
 	private StoreRepository storeRepo;
+	
+	@Autowired(required = true)
+	@PersistenceContext
+	private EntityManager em;
 	
 	private ResponseMessage msg = new ResponseMessage();
 	
@@ -69,9 +71,9 @@ public class StoreNearPostStationService {
 	
 	public ResponseEntity<?> findByStoreId(Long id){
 		msg.setMessage("Store not found");
-		Optional<Store> storeOptional = storeRepo.findById(id);
+		Optional<Stores> storeOptional = storeRepo.findById(id);
 		if(storeOptional.isPresent()) {
-			Store store = storeOptional.get();
+			Stores store = storeOptional.get();
 			if(!store.getPoststations().isEmpty()) {
 				return ResponseEntity.ok(store.getPoststations());
 			}
@@ -81,26 +83,11 @@ public class StoreNearPostStationService {
 	}
 	
 	public ResponseEntity<?> deleteById(Long id){
-		Long storeId = repo.findById(id).get().getId();
-		
-//		Session session = SessionFactoryHelper.getSessionFactory();
-//		EntityManager em = session.getEntityManagerFactory().createEntityManager();
-		emf = Persistence.createEntityManagerFactory("persistence");
-		em = emf.createEntityManager();
-		em.getTransaction().begin();
-
-		Store store = em.find(Store.class, storeId);
-		boolean result = store.getPoststations().removeIf(p -> p.getId() == id);
-		if(result) {
-			em.getTransaction().commit();
-			em.close();
-			msg.setMessage("Delete successful.");
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(msg);
-		}
-		em.getTransaction().rollback();
-		em.close();
-		msg.setMessage("Delete unsuccess.");
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(msg);
+		Stores store = repo.findById(id).get().getStore();
+		store.getPoststations().removeIf(d -> d.getId() == id);
+		storeRepo.save(store);
+		msg.setMessage("Delete success.");
+		return ResponseEntity.ok(msg);
 	}
 
 }

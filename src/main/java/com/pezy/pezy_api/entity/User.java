@@ -118,7 +118,7 @@ public class User implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userStore")
 	@JsonManagedReference(value = "user_store")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Store> stores;
+	private List<Stores> stores;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, mappedBy = "user")
 	@JsonManagedReference(value = "user_order")

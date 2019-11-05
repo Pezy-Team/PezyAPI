@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.rest.core.config.ResourceMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.pezy.pezy_api.entity.Store;
+import com.pezy.pezy_api.entity.Stores;
 import com.pezy.pezy_api.pojo.ResponseMessage;
 import com.pezy.pezy_api.pojo.UploadFileResponse;
 import com.pezy.pezy_api.service.FileStorageService;
@@ -40,24 +41,29 @@ public class StoreController {
 	ResponseMessage msg = new ResponseMessage();
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Store store){
+	public ResponseEntity<?> create(@RequestBody Stores store){
 		store.setId(null);
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(store));
 	}
 	
 	@PutMapping
-	public ResponseEntity<?> update(@RequestBody Store store){
+	public ResponseEntity<?> update(@RequestBody Stores store){
 		return ResponseEntity.ok(service.save(store));
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Long id){
-		Optional<Store> storeOptional = service.findById(id);
+		Optional<Stores> storeOptional = service.findById(id);
 		if(storeOptional.isPresent()) {
 			return ResponseEntity.ok(storeOptional);
 		}
 		msg.setMessage("Store not found!");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+	}
+	
+	@GetMapping
+	public ResponseEntity<?> findAll(){
+		return service.findAll();
 	}
 
 	@PostMapping("/logo/upload")
@@ -110,7 +116,7 @@ public class StoreController {
 	
 	@GetMapping("/structure")
 	public ResponseEntity<?> getStructure(){
-		return ResponseEntity.ok(new Store());
+		return ResponseEntity.ok(new Stores());
 	}
 	
 }

@@ -38,7 +38,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "order")
+@Table(name = "store_order")
 //@JsonIgnoreProperties(value = {"password", "token"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Order.class)
 public class Order implements Serializable{
@@ -50,7 +50,7 @@ public class Order implements Serializable{
 	private Long id;
 	
 	@JsonProperty(value = "sum_amount")
-	@Column(name = "order_no")
+	@Column(name = "sum_amount")
 	private Integer sumAmount;
 	
 	@JsonProperty(value = "order_no")

@@ -1,5 +1,8 @@
 package com.pezy.pezy_api.controller;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ import com.pezy.pezy_api.service.StoreNearPostStationService;
 @RequestMapping("/v1/store-nearly-poststation")
 @CrossOrigin(origins = "*")
 public class StoreNearPostStationController {
+	
 
 	@Autowired
 	StoreNearPostStationService service;

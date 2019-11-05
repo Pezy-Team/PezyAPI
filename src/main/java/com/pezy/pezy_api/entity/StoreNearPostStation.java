@@ -77,10 +77,10 @@ public class StoreNearPostStation implements Serializable{
 	/**
 	 * Relation
 	 */
-	@ManyToOne(targetEntity = Store.class)
+	@ManyToOne(targetEntity = Stores.class)
 	@JoinColumn(name = "store_id")
 	@JsonBackReference(value = "storePostStatusRef")
-	private Store store;
+	private Stores store;
 	
 
 }

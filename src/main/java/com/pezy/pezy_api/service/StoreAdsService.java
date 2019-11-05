@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.pezy.pezy_api.entity.Store;
+import com.pezy.pezy_api.entity.Stores;
 import com.pezy.pezy_api.entity.StoreAds;
 import com.pezy.pezy_api.pojo.ResponseMessage;
 import com.pezy.pezy_api.repository.StoreAdsRepository;
@@ -55,7 +55,7 @@ public class StoreAdsService {
 	
 	public ResponseEntity<?> findAdsByStoreId(Long storeId){
 		msg.setMessage("Store not found");
-		Optional<Store> storeOpt = storeRepo.findById(storeId);
+		Optional<Stores> storeOpt = storeRepo.findById(storeId);
 		if(storeOpt.isPresent()) {
 			if(!storeOpt.get().getAdsBanner().isEmpty()) {
 				return ResponseEntity.ok(storeOpt.get().getAdsBanner());

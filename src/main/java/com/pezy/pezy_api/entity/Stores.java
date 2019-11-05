@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedBy;
@@ -40,8 +42,8 @@ import lombok.Data;
 @Entity
 @Table(name = "res_store")
 //@JsonIgnoreProperties(value = {"password", "token"})
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Store.class)
-public class Store implements Serializable {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Stores.class)
+public class Stores implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -138,13 +140,15 @@ public class Store implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "store")
 	@JsonManagedReference(value = "storePostStatusRef")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<StoreNearPostStation> poststations;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "store")
 	@JsonManagedReference(value = "productStoreRef")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Product> products;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "store")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "store")
 	@JsonManagedReference(value = "storeAdsRef")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<StoreAds> adsBanner;

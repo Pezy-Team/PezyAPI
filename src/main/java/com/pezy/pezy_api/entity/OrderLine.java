@@ -29,7 +29,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "order_line")
+@Table(name = "store_order_line")
 //@JsonIgnoreProperties(value = {"password", "token"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = OrderLine.class)
 public class OrderLine implements Serializable{

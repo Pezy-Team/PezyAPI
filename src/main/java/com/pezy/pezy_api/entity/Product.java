@@ -105,10 +105,10 @@ public class Product implements Serializable{
 	@JsonBackReference(value = "products_parent")
 	private ProductCategory category;
 
-	@ManyToOne(targetEntity = Store.class)
+	@ManyToOne(targetEntity = Stores.class)
 	@JoinColumn(name = "store_id")
 	@JsonBackReference(value = "productStoreRef")
-	private Store store;
+	private Stores store;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = false)
 	@JsonManagedReference(value = "products_orderline")
