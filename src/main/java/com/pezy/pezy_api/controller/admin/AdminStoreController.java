@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pezy.pezy_api.entity.StoreAds;
 import com.pezy.pezy_api.pojo.SearchStoreParam;
+import com.pezy.pezy_api.service.admin.AdminStoreAdsService;
 import com.pezy.pezy_api.service.admin.AdminStoreService;
 
 @RestController
@@ -20,6 +22,9 @@ public class AdminStoreController {
 
 	@Autowired
 	private AdminStoreService service;
+	
+	@Autowired
+	private AdminStoreAdsService adsService;
 	
 	@GetMapping("/limit/{limit}/of-page/{offset}")
 	public ResponseEntity<?> findAll(@PathVariable("limit")Integer limit, @PathVariable("offset")Integer offset){
@@ -31,6 +36,17 @@ public class AdminStoreController {
 	public ResponseEntity<?> findByPaidDateBetweenAndStatus(@PathVariable("limit")Integer limit, 
 			@PathVariable("offset")Integer offset, @RequestBody SearchStoreParam param){
 		return service.findByPaidDateBetweenAndStatus(param, limit, offset);
+	}
+	
+	@GetMapping("/ads/limit/{limit}/of-page/{offset}")
+	public ResponseEntity<?> findByOrderByCreateDateDesc(@PathVariable("limit")Integer limit, @PathVariable("offset")Integer offset){
+		return adsService.findByOrderByCreateDateDesc(limit, offset);
+	}
+	
+	@PostMapping("/ads/limit/{limit}/of-page/{offset}")
+	public ResponseEntity<?> findByStatusOrderByCreateDateDesc(@PathVariable("limit")Integer limit, @PathVariable("offset")Integer offset,
+			@RequestBody StoreAds ads){
+		return adsService.findByStatusOrderByCreateDateDesc(ads.getStatus(), limit, offset);
 	}
 	
 }
