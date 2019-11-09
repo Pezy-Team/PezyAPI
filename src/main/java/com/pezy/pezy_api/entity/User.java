@@ -122,6 +122,6 @@ public class User implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = false, mappedBy = "user")
 	@JsonManagedReference(value = "user_order")
-	private Set<Order> orders;
+	private List<Order> orders;
 
 }
