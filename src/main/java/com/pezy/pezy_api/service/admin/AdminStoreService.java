@@ -1,6 +1,7 @@
 package com.pezy.pezy_api.service.admin;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.pezy.pezy_api.entity.Stores;
 import com.pezy.pezy_api.entity.User;
+import com.pezy.pezy_api.enumerate.StoreStatusEnum;
 import com.pezy.pezy_api.pojo.ResponseMessage;
+import com.pezy.pezy_api.pojo.SearchStoreParam;
 import com.pezy.pezy_api.pojo.UsersStore;
 import com.pezy.pezy_api.repository.StoreRepository;
 
@@ -45,6 +48,34 @@ public class AdminStoreService {
 		}
 		msg.setMessage("Store not found!");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+	}
+	
+	public ResponseEntity<?> findByPaidDateBetweenAndStatus(SearchStoreParam param, Integer limit, Integer offset){
+		 List<Stores> stores = storeRepo.findByPaidDateBetweenAndStatus(
+				 param.getDateFrom(), 
+				 param.getDateUntil(), 
+				 param.getStatus(), 
+				 PageRequest.of(offset, limit)).getContent();
+		
+
+			if(!stores.isEmpty()) {
+				List<UsersStore> storeList = new ArrayList<UsersStore>();
+				stores.forEach(store -> {
+					UsersStore userStore = new UsersStore();
+					User user = store.getUserStore();
+					userStore.setUserId(user.getId());
+					userStore.setName(user.getName());
+					userStore.setEmail(user.getEmail());
+					userStore.setUsername(user.getUsername());
+					userStore.setTel(user.getTel());
+					userStore.setStore(store);
+					storeList.add(userStore);
+				});
+				
+				return ResponseEntity.ok(storeList);
+			}
+			msg.setMessage("Store not found!");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
 	}
 
 }

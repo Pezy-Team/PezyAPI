@@ -105,10 +105,13 @@ public class Stores implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private StoreStatusEnum status = StoreStatusEnum.WAIT;
 	
+	@Column(name = "paid_date")
+	private Date paidDate;
+	
 	@Column(name = "vdo_live_status")
 	@Enumerated(EnumType.STRING)
 	private BooleanEnum vdoLiveStatus = BooleanEnum.FALSE;
-
+	
 	@CreatedBy
 	@Column(name = "create_uid")
 	@JsonProperty("create_uid")

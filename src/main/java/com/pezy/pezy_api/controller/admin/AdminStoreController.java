@@ -5,9 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pezy.pezy_api.pojo.SearchStoreParam;
 import com.pezy.pezy_api.service.admin.AdminStoreService;
 
 @RestController
@@ -23,5 +26,11 @@ public class AdminStoreController {
 		return service.findAll(limit, offset);
 	}
 	
+	
+	@PostMapping("/limit/{limit}/of-page/{offset}")
+	public ResponseEntity<?> findByPaidDateBetweenAndStatus(@PathVariable("limit")Integer limit, 
+			@PathVariable("offset")Integer offset, @RequestBody SearchStoreParam param){
+		return service.findByPaidDateBetweenAndStatus(param, limit, offset);
+	}
 	
 }
