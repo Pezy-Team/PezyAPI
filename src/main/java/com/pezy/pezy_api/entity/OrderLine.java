@@ -50,7 +50,6 @@ public class OrderLine implements Serializable{
 	@JsonProperty(value = "price_after_vat")
 	@Type(type = "big_decimal")
 	private BigDecimal priceAfterVAT;
-	
 
 	@CreatedBy
 	@Column(name = "create_uid")

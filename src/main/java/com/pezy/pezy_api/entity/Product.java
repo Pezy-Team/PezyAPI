@@ -112,6 +112,6 @@ public class Product implements Serializable{
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = false)
 	@JsonManagedReference(value = "products_orderline")
-	private Set<OrderLine> orders;
+	private List<OrderLine> orders;
 
 }

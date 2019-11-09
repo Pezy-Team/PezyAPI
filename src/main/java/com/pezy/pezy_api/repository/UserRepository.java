@@ -21,4 +21,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	@Query(nativeQuery = true, value = "SELECT * FROM res_user WHERE token = ?1")
 	public User findUserByToken(String token);
 	
+	public User findByToken(String token);
+	
 }

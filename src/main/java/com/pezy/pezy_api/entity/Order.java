@@ -117,6 +117,6 @@ public class Order implements Serializable{
 	@JsonManagedReference(value = "order_orderline")
 	@JsonProperty(value = "order_lines")
 	@Column(name = "order_lines")
-	private Set<OrderLine> orderLines;
+	private List<OrderLine> orderLines;
 
 }

@@ -30,6 +30,17 @@ public class OrderService {
 		return ResponseEntity.ok(repo.save(o));
 	}
 	
+	public ResponseEntity<?> updateStatus(Long id, Order o){
+		Optional<Order> orderOptional = repo.findById(id);
+		if(orderOptional.isPresent()) {
+			Order order = orderOptional.get();
+			order.setStatus(o.getStatus());
+			return ResponseEntity.ok(repo.save(order));
+		}
+		msg.setMessage("Order not found!");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+	}
+	
 	public ResponseEntity<?> findAll(){
 		List<Order> orders = (List<Order>) repo.findAll();
 		if(!orders.isEmpty()) {
