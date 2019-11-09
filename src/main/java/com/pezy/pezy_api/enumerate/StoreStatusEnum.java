@@ -2,6 +2,8 @@ package com.pezy.pezy_api.enumerate;
 
 public enum StoreStatusEnum {
 	WAIT("wait"),
+	PAID("paid"),
+	UNPAID("unpaid"),
 	APPROVED("approved"),
 	SUSPEND("suspend"),
 	BANNED("banned"),

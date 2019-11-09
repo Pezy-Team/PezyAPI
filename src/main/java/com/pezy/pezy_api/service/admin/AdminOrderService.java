@@ -24,7 +24,7 @@ public class AdminOrderService {
 	private ResponseMessage msg = new ResponseMessage();
 	
 	public ResponseEntity<?> findOrderWithPageable(Pageable pageable){
-		List<Order> orderList = repo.findAllByOrderByOrderDateDesc(pageable);
+		List<Order> orderList = repo.findAllByOrderByOrderDateDesc(pageable).getContent();
 		
 		if(!orderList.isEmpty()) {
 //			return ResponseEntity.ok(orderList);
