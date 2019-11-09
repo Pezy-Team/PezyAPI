@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pezy.pezy_api.service.OrderService;
 import com.pezy.pezy_api.service.admin.AdminOrderService;
 
 @RestController
