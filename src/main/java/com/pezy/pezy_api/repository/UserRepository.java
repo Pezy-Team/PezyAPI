@@ -1,5 +1,6 @@
 package com.pezy.pezy_api.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	@Query(nativeQuery = true, value = "SELECT * FROM res_user WHERE token = ?1")
 	public User findUserByToken(String token);
 	
-	public User findByToken(String token);
+	public List<User> findByTokenAndTokenExpireAfter(String token, Date now);
+	
+	public List<User> findByToken(String token);
 	
 }
+ 

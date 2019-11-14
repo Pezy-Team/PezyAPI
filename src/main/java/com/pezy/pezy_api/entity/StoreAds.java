@@ -28,8 +28,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pezy.pezy_api.enumerate.AdsProcessStatusEnum;
+import com.pezy.pezy_api.enumerate.RegisterByDeviceEnum;
+import com.pezy.pezy_api.enumerate.RegisterByEnum;
 
 import lombok.Data;
+import lombok.experimental.PackagePrivate;
 
 @Data
 @Entity

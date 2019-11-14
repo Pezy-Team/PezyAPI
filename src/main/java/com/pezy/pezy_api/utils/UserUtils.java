@@ -22,6 +22,11 @@ public class UserUtils {
 		}
 		return null;
 	}
+	
+	public boolean isTokenExpired(Date expire) {
+		Date now = new Date();
+		return now.after(expire);
+	}
 
 	public String storeToken(UserService userServ, User userResult, SecuritiesProperties secProp) {
 		String befToken = new Date().toString() + userResult.getEmail() + userResult.getCreateDate() + secProp.getSALT();

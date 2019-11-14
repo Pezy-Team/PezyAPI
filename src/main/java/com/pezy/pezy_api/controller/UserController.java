@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.HeaderParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -86,6 +87,16 @@ public class UserController {
 		Optional<User> userOpt = userServ.findById(user.getId());
 		user.setPassword(userOpt.get().getPassword());
 		return ResponseEntity.ok(userServ.save(user));
+	}
+	
+	@GetMapping("/getprofile")
+	public ResponseEntity<?> getProfile(@RequestParam("token") String token){
+		return userServ.getProfileByTokenAndTokenExpireAfter(token);
+	}
+	
+	@GetMapping("/is-token-expire")
+	public ResponseEntity<?> isTokenExpire(@RequestParam("token") String token){
+		return userServ.isTokenExpire(token);
 	}
 
 	@PostMapping("/auth-by-email")

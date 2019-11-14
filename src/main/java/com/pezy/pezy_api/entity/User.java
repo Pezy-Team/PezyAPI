@@ -31,6 +31,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pezy.pezy_api.enumerate.GenderEnum;
+import com.pezy.pezy_api.enumerate.RegisterByDeviceEnum;
+import com.pezy.pezy_api.enumerate.RegisterByEnum;
 import com.pezy.pezy_api.enumerate.UserTypeEnum;
 
 import lombok.Data;
@@ -77,6 +79,16 @@ public class User implements Serializable {
 	@Column(name = "gender")
 	@Enumerated(EnumType.ORDINAL)
 	private GenderEnum gender = GenderEnum.MALE;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "reg_device")
+	@JsonProperty(value = "register_device")
+	private RegisterByDeviceEnum registerDevice = RegisterByDeviceEnum.ETC;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "reg_by")
+	@JsonProperty(value = "register_by")
+	private RegisterByEnum registerBy = RegisterByEnum.ETC;
 
 	@Column(name = "birth_date")
 	private Date birthDate;
