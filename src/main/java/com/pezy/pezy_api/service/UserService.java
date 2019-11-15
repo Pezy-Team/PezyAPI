@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.representer.Represent;
 
 import com.pezy.pezy_api.entity.User;
 import com.pezy.pezy_api.pojo.ResponseMessage;
@@ -68,4 +71,42 @@ public class UserService {
 		msg.setMessage("Token is now available.");
 		return ResponseEntity.ok(msg);
 	}
+	
+	public ResponseEntity<?> findByRegisterDeviceIs(User user, Pageable page){
+		List<User> users = userRep.findByRegisterDeviceIs(user.getRegisterDevice(), page);
+		if(users.isEmpty()) {
+			msg.setMessage(String.format("%s user not found.", user.getRegisterDevice()));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+		}
+		return ResponseEntity.ok(users);
+	}
+	
+	public ResponseEntity<?> findByRegisterByIs(User user, Pageable page){
+		List<User> users = userRep.findByRegisterByIs(user.getRegisterBy(), page);
+		if(users.isEmpty()) {
+			msg.setMessage(String.format("%s user not found.", user.getRegisterBy()));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+		}
+		return ResponseEntity.ok(users);
+	}
+	
+	public ResponseEntity<?> findByGenderIs(User user, Pageable page){
+		List<User> users = userRep.findByGenderIs(user.getGender(), page);
+		if(users.isEmpty()) {
+			msg.setMessage(String.format("%s user not found.", user.getGender()));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+		}
+		return ResponseEntity.ok(users);
+	}
+	
+	public ResponseEntity<?> findByUserTypeIs(User user, Pageable page){
+		List<User> users = userRep.findByUserTypeIs(user.getUserType(), page);
+		if(users.isEmpty()) {
+			msg.setMessage(String.format("%s user not found.", user.getUserType()));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+		}
+		return ResponseEntity.ok(users);
+	}
+	
+	
 }
