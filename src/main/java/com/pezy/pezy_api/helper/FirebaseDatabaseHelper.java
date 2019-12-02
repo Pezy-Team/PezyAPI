@@ -73,7 +73,9 @@ public class FirebaseDatabaseHelper {
 			System.out.println(msg.getMessage());
 		}
 		msg.setStatus(false);
-		apps.delete();
+		if(null != apps) {
+			apps.delete();
+		}
 		return msg;
 	}
 	
