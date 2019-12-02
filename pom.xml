@@ -22,6 +22,14 @@
 	</properties>
 
 	<dependencies>
+		
+		<!-- https://firebase.google.com/docs/admin/setup -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>6.11.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
 		<dependency>
 			<groupId>joda-time</groupId>
