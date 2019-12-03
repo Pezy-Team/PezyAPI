@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.pezy.pezy_api.pojo.FirebaseChat;
 import com.pezy.pezy_api.pojo.ResponseMessage;
 import com.pezy.pezy_api.pojo.ResponseMessageFirebaseChat;
+import com.pezy.pezy_api.properties.PezyConfigProperties;
 
 public class FirebaseDatabaseHelper {
 
@@ -79,23 +80,17 @@ public class FirebaseDatabaseHelper {
 		return msg;
 	}
 	
-	private void getFirebaseDatabase() throws IOException, URISyntaxException {
+	private void getFirebaseDatabase() throws Exception {
 		initializeFirebase();
 		database = FirebaseDatabase.getInstance(apps);
 	}
 	
-	private void initializeFirebase() throws IOException, URISyntaxException {
-
-
-		Enumeration<URL> adminsSDK = getClass().getClassLoader().getResources("testpezychat-firebase-adminsdk-bxi1c-54de75f8da.json");
-		
-
-		File file = Paths.get(adminsSDK.nextElement().toURI()).toFile();
-		String absolutePath = file.getAbsolutePath();
-		FileInputStream serviceAccount = new FileInputStream(absolutePath);
+	private void initializeFirebase() throws Exception {
 		
 		FirebaseOptions options = new FirebaseOptions.Builder()
-				  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//				.setCredentials(GoogleCredentials.fromStream(new FileInputStream("C:\\Users\\Administrator\\Documents\\api\\firebase_key\\testpezychat-firebase-adminsdk-bxi1c-54de75f8da.json")))
+				  .setCredentials(GoogleCredentials.fromStream(new FileInputStream(PezyConfigProperties.init().getProperty("firebase.keyfile.path"))))
+//				  .setCredentials(GoogleCredentials.getApplicationDefault())
 				  .setDatabaseUrl("https://testpezychat.firebaseio.com")
 				  .build();
 

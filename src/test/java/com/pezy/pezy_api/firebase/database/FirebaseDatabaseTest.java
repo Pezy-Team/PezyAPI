@@ -4,6 +4,7 @@ import java.awt.SystemTray;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -12,6 +13,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.junit.Test;
 
@@ -29,6 +31,22 @@ import com.pezy.pezy_api.pojo.FirebaseChat;
 public class FirebaseDatabaseTest {
 	
 	@Test
+	public void testReadPropertyFile() {
+		InputStream stream = getClass().getClassLoader().getResourceAsStream("pezyconfig.properties");
+		if(stream != null) {
+			Properties prop = new Properties();
+			try {
+				prop.load(stream);
+				String path = prop.getProperty("firebase.keyfile.path");
+				System.out.println("Path : " + path);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
 	public void testDatabaeFirebase() {
 		try {
 			Enumeration<URL> adminsSDK = getClass().getClassLoader().getResources("testpezychat-firebase-adminsdk-bxi1c-54de75f8da.json");

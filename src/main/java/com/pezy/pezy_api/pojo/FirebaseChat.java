@@ -13,7 +13,7 @@ public class FirebaseChat implements Serializable{
 	
 	private String message;
 	
-	private Date timestamps = new Date();
+	private Long timestamps = new Date().getTime();
 	
 	private String type;
 	
