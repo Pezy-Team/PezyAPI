@@ -122,7 +122,9 @@ public class UserController {
 		 * Store token.
 		 */
 		TokenMessage tokenMsg = new TokenMessage();
-		tokenMsg.setToken(userUtils.storeToken(userServ, userResult, secProp));
+		String token = userUtils.storeToken(userServ, userResult, secProp);
+		tokenMsg.setUser(userServ.findUserByToken(token));
+		tokenMsg.setToken(token);
 		tokenMsg.setMessage("Authenticate successful.");
 		return ResponseEntity.ok(tokenMsg);
 	}
@@ -149,7 +151,9 @@ public class UserController {
 		 * Store token.
 		 */
 		TokenMessage tokenMsg = new TokenMessage();
-		tokenMsg.setToken(userUtils.storeToken(userServ, userResult, secProp));
+		String token = userUtils.storeToken(userServ, userResult, secProp);
+		tokenMsg.setUser(userServ.findUserByToken(token));
+		tokenMsg.setToken(token);
 		tokenMsg.setMessage("Authenticate successful.");
 		return ResponseEntity.ok(tokenMsg);
 	}
