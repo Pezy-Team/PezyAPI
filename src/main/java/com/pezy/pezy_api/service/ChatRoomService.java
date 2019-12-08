@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pezy.pezy_api.entity.ChatRoom;
+import com.pezy.pezy_api.entity.Stores;
 import com.pezy.pezy_api.entity.User;
 import com.pezy.pezy_api.helper.AuthHelper;
 import com.pezy.pezy_api.helper.FirebaseDatabaseHelper;
@@ -20,6 +21,7 @@ import com.pezy.pezy_api.pojo.ResponseMessage;
 import com.pezy.pezy_api.pojo.ResponseMessageChatRoom;
 import com.pezy.pezy_api.pojo.ResponseMessageFirebaseChat;
 import com.pezy.pezy_api.repository.ChatRoomRepository;
+import com.pezy.pezy_api.repository.StoreRepository;
 import com.pezy.pezy_api.repository.UserRepository;
 import com.pezy.pezy_api.utils.UserUtils;
 
@@ -31,6 +33,9 @@ public class ChatRoomService {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private StoreRepository storeRepo;
 	
 	private final String SALT = "CHATROOMPEZY";
 	
@@ -58,49 +63,65 @@ public class ChatRoomService {
 		}
 	}
 	
-	public ResponseEntity<?> create(Long invite, Long accept){
-		String inviteName = userRepo.findById(invite).get().getName();
-		String acceptName = userRepo.findById(accept).get().getName();
-		
-		List<ChatRoom> rooms = repo.findByInviteIDAndAcceptIDOrInviteIDAndAcceptID(invite, accept, accept, invite);
-		if(rooms.isEmpty()) {
-			ChatRoom chat = new ChatRoom();
-			chat.setInviteID(invite);
-			chat.setAcceptID(accept);
-			
-			String name = AuthHelper.bcrypt(5, inviteName + acceptName + SALT + new Date().toString());
-			name = StringUtils.remove(name, "*");
-			name = StringUtils.remove(name, "$");
-			name = StringUtils.remove(name, "/");
-			name = StringUtils.remove(name, "\\");
-			name = StringUtils.remove(name, ".");
-			name = StringUtils.remove(name, "[");
-			name = StringUtils.remove(name, "]");
-			name = StringUtils.remove(name, "(");
-			name = StringUtils.remove(name, ")");
-			chat.setRoomName(name);
-			return ResponseEntity.ok(repo.save(chat));
+	public ResponseEntity<?> create(Long userID, Long storeID){
+		Optional<User> userOpt = userRepo.findById(userID);
+		Optional<Stores> storeOptional = storeRepo.findById(storeID);
+		if(storeOptional.isPresent() && userOpt.isPresent()) {
+			Optional<ChatRoom> roomOpt = repo.findByUserIDAndStoreID(userID, storeID);
+			if(!roomOpt.isPresent()) {
+				ChatRoom chat = new ChatRoom();
+				chat.setUserID(userID);
+				chat.setStoreID(storeID);
+				
+				String name = AuthHelper.bcrypt(5, userOpt.get().getName() + storeOptional.get().getName() + SALT + new Date().toString());
+				name = StringUtils.remove(name, "*");
+				name = StringUtils.remove(name, "$");
+				name = StringUtils.remove(name, "/");
+				name = StringUtils.remove(name, "\\");
+				name = StringUtils.remove(name, ".");
+				name = StringUtils.remove(name, "[");
+				name = StringUtils.remove(name, "]");
+				name = StringUtils.remove(name, "(");
+				name = StringUtils.remove(name, ")");
+				chat.setRoomName(name);
+				return ResponseEntity.ok(repo.save(chat));
+			} else {
+				List<ChatRoom> rooms = new ArrayList<ChatRoom>();
+				rooms.add(roomOpt.get());
+				msgChat.setMessage("They matchs together already.");
+				msgChat.setChatRooms(rooms);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msgChat);
+			}
 		} else {
-			msgChat.setMessage("They matchs together already.");
-			msgChat.setChatRooms(rooms);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msgChat);
+			msg.setMessage("Store or user not found.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
 		}
-		
 	}
 	
-	public ResponseEntity<?> findBoth(Long invite, Long accept){
-		List<ChatRoom> rooms = repo.findByInviteIDAndAcceptIDOrInviteIDAndAcceptID(invite, accept, accept, invite);
-		if(rooms.isEmpty()) {
+	public ResponseEntity<?> findBoth(Long userID, Long storeID){
+		Optional<ChatRoom> rooms = repo.findByUserIDAndStoreID(userID, storeID);
+		if(!rooms.isPresent()) {
 			msg.setMessage("Chat room not found.");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
 		}
 		msgChat.setMessage("Finding chat room success.");
-		msgChat.setChatRooms(rooms);
+		List<ChatRoom> roomList = new ArrayList<ChatRoom>();
+		roomList.add(rooms.get());
+		msgChat.setChatRooms(roomList);
 		return ResponseEntity.ok(msgChat);
 	}
 	
-	public ResponseEntity<?> findByUserId(Long id){
-		List<ChatRoom> rooms = repo.findByInviteIDOrAcceptID(id, id);
+	public ResponseEntity<?> findByStoreId(Long storeID){
+		List<ChatRoom> rooms = repo.findByStoreID(storeID);
+		if(rooms.isEmpty()) {
+			msg.setMessage("Chat room not found.");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);
+		}
+		return ResponseEntity.ok(rooms);
+	}
+	
+	public ResponseEntity<?> findByUserId(Long userID){
+		List<ChatRoom> rooms = repo.findByUserID(userID);
 		if(rooms.isEmpty()) {
 			msg.setMessage("Chat room not found.");
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msg);

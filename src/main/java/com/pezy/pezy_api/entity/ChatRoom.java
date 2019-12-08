@@ -35,13 +35,13 @@ public class ChatRoom implements Serializable{
 	@Column(name = "room_name", length = 500)
 	private String roomName;
 	
-	@Column(name = "invite_id")
-	@JsonProperty(value = "invite_id")
-	private Long inviteID;
+	@Column(name = "user_id")
+	@JsonProperty(value = "user_id")
+	private Long userID;
 
-	@Column(name = "accept_id")
-	@JsonProperty(value = "accept_id")
-	private Long acceptID;
+	@Column(name = "store_id")
+	@JsonProperty(value = "store_id")
+	private Long storeID;
 
 	@CreatedDate
 	@Column(name = "create_date")

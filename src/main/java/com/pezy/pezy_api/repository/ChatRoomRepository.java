@@ -11,9 +11,11 @@ import com.pezy.pezy_api.entity.ChatRoom;
 @Repository
 public interface ChatRoomRepository extends CrudRepository<ChatRoom, Long> {
 	
-	public List<ChatRoom> findByInviteIDOrAcceptID(Long invite, Long accept);
+	public Optional<ChatRoom> findByUserIDAndStoreID(Long userID, Long storeID);
 	
-	public List<ChatRoom> findByInviteIDAndAcceptIDOrInviteIDAndAcceptID(Long id1, Long id2, Long id3, Long id4);
+	public List<ChatRoom> findByUserID(Long userID);
+	
+	public List<ChatRoom> findByStoreID(Long storeID);
 	
 	public Optional<ChatRoom> findByRoomName(String name);
 

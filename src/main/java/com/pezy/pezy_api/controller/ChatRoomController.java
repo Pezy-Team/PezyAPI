@@ -28,9 +28,9 @@ public class ChatRoomController {
 		return service.pushMessage(message, room);
 	}
 	
-	@PostMapping("/user1/{id1}/user2/{id2}")
-	public ResponseEntity<?> create(@PathVariable("id1")Long id1, @PathVariable("id2")Long id2){
-		return service.create(id1, id2);
+	@PostMapping("/user/{user}/store/{store}")
+	public ResponseEntity<?> create(@PathVariable("user")Long user, @PathVariable("store")Long store){
+		return service.create(user, store);
 	}
 	
 	@GetMapping("/user/{id}")
@@ -38,9 +38,14 @@ public class ChatRoomController {
 		return service.findByUserId(id);
 	}
 	
-	@GetMapping("/user1/{id1}/user2/{id2}")
-	public ResponseEntity<?> findBoth(@PathVariable("id1")Long id1, @PathVariable("id2")Long id2){
-		return service.findBoth(id1, id2);
+	@GetMapping("/store/{storeID}")
+	public ResponseEntity<?> findByStoreId(@PathVariable("storeID")Long storeID){
+		return service.findByStoreId(storeID);
+	}
+	
+	@GetMapping("/user/{userID}/storeID/{storeID}")
+	public ResponseEntity<?> findBoth(@PathVariable("userID")Long userID, @PathVariable("storeID")Long storeID){
+		return service.findBoth(userID, storeID);
 	}
 
 }
