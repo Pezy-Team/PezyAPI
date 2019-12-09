@@ -7,9 +7,9 @@ import com.pezy.pezy_api.entity.User;
 import lombok.Data;
 
 @Data
-public class TokenMessage extends ResponseMessage implements Serializable{
+public class ResponseMessageFacebookUserProfile extends ResponseMessage implements Serializable{
 	
-	private String token;
+	private Boolean status = true;
 	
 	private User data;
 

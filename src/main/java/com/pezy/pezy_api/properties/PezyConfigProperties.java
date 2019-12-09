@@ -25,8 +25,12 @@ public class PezyConfigProperties {
 		return instance;
 	}
 	
-	public static String getProperty(String name) {
+	public static String getPlatformProperty(String name) {
 		return prop.getProperty(PLATFORM + "." + name);
+	}
+	
+	public static String getProperty(String name) {
+		return prop.getProperty(name);
 	}
 	
 }

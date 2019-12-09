@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pezy.pezy_api.enumerate.BooleanEnum;
 import com.pezy.pezy_api.enumerate.GenderEnum;
 import com.pezy.pezy_api.enumerate.RegisterByDeviceEnum;
 import com.pezy.pezy_api.enumerate.RegisterByEnum;
@@ -96,6 +97,23 @@ public class User implements Serializable {
 	@Column(name = "token_expire")
 	@JsonProperty("token_expire")
 	private Date tokenExpire;
+	
+	/**
+	 * Facebook
+	 */
+	
+	@Column(name = "fb_uid")
+	@JsonProperty("fb_uid")
+	private String fbUID;
+	
+	@Column(name = "fb_access_token", length = 500)
+	@JsonProperty("fb_access_token")
+	private String fbAccessToken;
+	
+	@Column(name = "fb_linked")
+	@JsonProperty("fb_linked")
+	@Enumerated(EnumType.STRING)
+	private BooleanEnum fbLinked = BooleanEnum.FALSE;
 
 	@CreatedBy
 	@Column(name = "create_uid")

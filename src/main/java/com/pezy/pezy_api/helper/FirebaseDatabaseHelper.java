@@ -89,7 +89,7 @@ public class FirebaseDatabaseHelper {
 		
 		FirebaseOptions options = new FirebaseOptions.Builder()
 //				.setCredentials(GoogleCredentials.fromStream(new FileInputStream("C:\\Users\\Administrator\\Documents\\api\\firebase_key\\testpezychat-firebase-adminsdk-bxi1c-54de75f8da.json")))
-				  .setCredentials(GoogleCredentials.fromStream(new FileInputStream(PezyConfigProperties.init().getProperty("firebase.keyfile.path"))))
+				  .setCredentials(GoogleCredentials.fromStream(new FileInputStream(PezyConfigProperties.init().getPlatformProperty("firebase.keyfile.path"))))
 //				  .setCredentials(GoogleCredentials.getApplicationDefault())
 				  .setDatabaseUrl("https://testpezychat.firebaseio.com")
 				  .build();
